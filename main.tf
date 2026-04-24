@@ -28,7 +28,7 @@ resource "samsungcloudplatformv2_security_group_security_group_rule" "ssh_in" {
   security_group_id = samsungcloudplatformv2_security_group_security_group.this.id
   direction         = "ingress"
   ethertype         = "IPv4"
-  protocol          = "tcp"
+  protocol          = "TCP"
   port_range_min    = 22
   port_range_max    = 22
   remote_ip_prefix  = var.allowed_ssh_cidr
@@ -39,7 +39,7 @@ resource "samsungcloudplatformv2_security_group_security_group_rule" "egress_all
   security_group_id = samsungcloudplatformv2_security_group_security_group.this.id
   direction         = "egress"
   ethertype         = "IPv4"
-  protocol          = "tcp"
+  protocol          = "TCP"
   port_range_min    = 1
   port_range_max    = 65535
   remote_ip_prefix  = "0.0.0.0/0"
