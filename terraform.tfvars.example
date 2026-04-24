@@ -1,0 +1,15 @@
+name_prefix      = "tf-scp-demo"
+vpc_cidr         = "10.10.0.0/16"
+subnet_cidr      = "10.10.1.0/24"
+subnet_type      = "GENERAL"
+igw_type         = "IGW"
+allowed_ssh_cidr = "0.0.0.0/0"
+keypair_name     = "tf-scp-demo-key"
+
+# Look up actual IDs via the SCP console or the
+# samsungcloudplatformv2_virtualserver_images data source.
+image_id       = "REPLACE_WITH_IMAGE_ID"
+server_type_id = "s1v1m2"
+
+boot_volume_size = 30
+boot_volume_type = "SSD"
