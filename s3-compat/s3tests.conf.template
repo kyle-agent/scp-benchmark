@@ -1,0 +1,59 @@
+[DEFAULT]
+host = ${S3_HOST}
+port = ${S3_PORT}
+is_secure = ${S3_IS_SECURE}
+ssl_verify = True
+
+[fixtures]
+bucket prefix = ${S3_BUCKET_PREFIX}
+iam name prefix = s3-tests-
+iam path prefix = /s3-tests/
+
+[s3 main]
+display_name = s3compat-main
+user_id = s3compat-main
+email = s3compat-main@example.com
+api_name = ${S3_REGION}
+access_key = ${S3_MAIN_ACCESS_KEY}
+secret_key = ${S3_MAIN_SECRET_KEY}
+
+[s3 alt]
+display_name = s3compat-alt
+user_id = s3compat-alt
+email = s3compat-alt@example.com
+access_key = ${S3_ALT_ACCESS_KEY}
+secret_key = ${S3_ALT_SECRET_KEY}
+
+# No dedicated multi-tenant account is available, so reuse the alt creds.
+# The session-level setup authenticates this client to nuke prefixed buckets,
+# so it must be valid. Genuine RGW multi-tenancy tests are expected to fail
+# against a non-RGW store and are triaged out of the report.
+[s3 tenant]
+display_name = s3compat-tenant
+user_id = s3compat-tenant
+email = s3compat-tenant@example.com
+tenant = s3compat
+access_key = ${S3_ALT_ACCESS_KEY}
+secret_key = ${S3_ALT_SECRET_KEY}
+
+# The config parser requires the iam sections to exist, but the default
+# test_s3.py target never instantiates the iam/sts clients. Dummy values keep
+# parsing happy; only populate these if you run test_iam.py / test_sts.py.
+[iam]
+display_name = s3compat-iam
+user_id = s3compat-iam
+email = s3compat-iam@example.com
+access_key = dummy-iam-access-key
+secret_key = dummy-iam-secret-key
+
+[iam root]
+access_key = dummy-iamroot-access-key
+secret_key = dummy-iamroot-secret-key
+user_id = s3compat-iamroot
+email = s3compat-iamroot@example.com
+
+[iam alt root]
+access_key = dummy-iamaltroot-access-key
+secret_key = dummy-iamaltroot-secret-key
+user_id = s3compat-iamaltroot
+email = s3compat-iamaltroot@example.com

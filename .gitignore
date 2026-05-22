@@ -8,3 +8,11 @@ terraform.tfvars
 crash.log
 crash.*.log
 .scpconf/
+
+# s3-compat tooling: third-party clone, venv, secrets, run artifacts
+s3-compat/s3-tests/
+s3-compat/.venv/
+s3-compat/.env
+s3-compat/s3tests.conf
+s3-compat/results/
+s3-compat/__pycache__/
