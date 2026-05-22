@@ -1,0 +1,8 @@
+# Credentials and generated artifacts (never commit)
+.env
+.venv/
+vendor/
+results/*
+!results/.gitkeep
+__pycache__/
+*.pyc
