@@ -89,15 +89,21 @@ TRIAGE_LABELS = dict(TRIAGE_ORDER)
 def triage(message, markers):
     """Classify a failure to help separate real gaps from test noise."""
     m = message.lower()
-    env_signals = ("ssl", "certificate", "could not connect", "connecttimeout",
-                   "connectionerror", "endpointconnectionerror", "readtimeout",
-                   "signaturedoesnotmatch", "name or service not known",
-                   "max retries", "timed out")
-    if any(s in m for s in env_signals):
+    # Only client-side transport errors count as harness/environment problems.
+    # Server-returned errors (a parsed ClientError with a code) are real
+    # results even when their text mentions TLS or signatures.
+    is_server_error = "clienterror" in m or "errorfactory" in m
+    env_signals = ("sslerror", "ssl validation failed",
+                   "endpointconnectionerror", "could not connect to the endpoint",
+                   "connecttimeouterror", "readtimeouterror",
+                   "connectionclosederror", "connection refused",
+                   "name or service not known")
+    if not is_server_error and any(s in m for s in env_signals):
         return "environment"
-    unsupported_signals = ("notimplemented", "not implemented", "501",
-                           "methodnotallowed", "method not allowed", "405",
-                           "unsupported", "not supported")
+    unsupported_signals = ("notimplemented", "not implemented", "501 ",
+                           "methodnotallowed", "method not allowed", "405 ",
+                           "unsupportedoperation", "not supported",
+                           "notsupported")
     if any(s in m for s in unsupported_signals):
         return "unsupported"
     if set(markers) & BACKEND_MARKERS:
